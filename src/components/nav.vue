@@ -1,6 +1,10 @@
 <template>
     <div class="nav">
-      <router-link to="/money">记账</router-link>
+      <router-link to="/money">
+      <svg>
+        <use xlink:href="#money1"/>
+      </svg>
+      记账</router-link>
       |
       <router-link to="/labels">标签</router-link>
       |
@@ -8,12 +12,15 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import x from '@/assets/icons/money1.svg'
+console.log(x)
+
     export default {
-        
+        name:'Nav'
     }
 </script>
 
-<style lang="scss" scoped> //scoped指定当前组件为影响范围，细节看https://cn.vuejs.org/v2/guide/comparison.html#组件作用域内的-CSS
+<style lang="scss" scoped> 
 .nav{border: 1px solid red;}
 </style>
