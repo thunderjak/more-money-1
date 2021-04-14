@@ -11,13 +11,17 @@
 ul,
 ol {
   list-style: none;
-}
+} //取消默认样式
 
 a {
   text-decoration: none;
   color: inherit;
-}
+} //取消下划线和紫色
 html,
 body {
   height: 100%;
 }
+button,
+input {
+  font: inherit;
+} //字体继承
