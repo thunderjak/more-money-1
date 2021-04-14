@@ -15,7 +15,7 @@
             <div class="notes">
                 <label class="remark">
                     <span class="name">备注</span>
-                    <input type="text">
+                    <input type="text" placeholder="在这里输入备注">
                 </label>    
             </div>
             <div class="type">
@@ -62,9 +62,9 @@
   > .current{
       display: flex;
       > li{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
           background: #d9d9d9;
           $h:24px;
           height: $h;
@@ -82,6 +82,24 @@
             border-bottom: 1px solid ;
             padding: 0 3px;
         }
+    }
+}
+.notes{
+    font-size: 14px;
+    background: #f5f5f5;
+    display: block;
+    padding-left: 16px;
+    display: flex;
+    align-items: center;
+    .name{
+        padding-right: 16px;
+    }
+    input{
+        height: 64px;
+        flex-grow: 1;
+        background: transparent;
+        border: none;
+        padding-right: 16px;
     }
 }
 </style>
