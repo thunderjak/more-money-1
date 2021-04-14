@@ -5,3 +5,12 @@ $font-hei: -apple-system, "Noto Sans", "Helvetica Neue", Helvetica,
   SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
 
 $color-highlight: rgb(18, 150, 219);
+
+//placeholder
+%clearFix {
+  &::after {
+    content: "";
+    clear: both;
+    display: block;
+  }
+}
