@@ -1,6 +1,6 @@
 <template>
-    <div class="nav-wrapper">
-        <div class="content">
+    <div class="layout-wrapper">
+        <div class="content" :class="classPrefix && `${classPrefix}-content`">
         <slot/>  <!-- vue插槽slot -->
         </div>
         <Nav />
@@ -9,12 +9,13 @@
 
 <script>
     export default {
+        props:['classPrefix'],
         name:'layout'
     }
 </script>
 
 <style lang="scss" scoped>
-.nav-wrapper{
+.layout-wrapper{
     display: flex;
     flex-direction:column;
     height: 100vh;

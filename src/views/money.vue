@@ -1,29 +1,6 @@
 <template>
     <div>
-        <Layout>
-            <div class="type">
-                <ul class="types">
-                    <li class="selected">支出</li>
-                    <li>收入</li>
-                </ul>
-            </div>
-            <div class="tags">
-                <ul class="current">
-                    <li>衣</li>
-                    <li class="selected">食</li>
-                    <li>住</li>
-                    <li>行</li>
-                </ul>
-                <div class="new">
-                    <button>新增标签</button>
-                </div>
-            </div>
-            <div class="notes">
-                <label class="remark">
-                    <span class="name">备注</span>
-                    <input type="text" placeholder="在这里输入备注">
-                </label>    
-            </div>
+        <Layout class-prefix="layout">
             <div class="numberPad">
                 <div class="output">100</div>
                 <div class="buttons">
@@ -44,6 +21,29 @@
                     <button>.</button>
                 </div>
             </div>
+            <div class="type">
+                <ul class="types">
+                    <li class="selected">支出</li>
+                    <li>收入</li>
+                </ul>
+            </div>
+            <div class="notes">
+                <label class="remark">
+                    <span class="name">备注</span>
+                    <input type="text" placeholder="在这里输入备注">
+                </label>    
+            </div>
+            <div class="tags">
+                <div class="new">
+                    <button>新增标签</button>
+                </div>
+                <ul class="current">
+                    <li>衣</li>
+                    <li class="selected">食</li>
+                    <li>住</li>
+                    <li>行</li>
+                </ul>
+            </div>
         </Layout>
     </div>
 </template>
@@ -54,11 +54,20 @@
     }
 </script>
 
+<style lang="scss">
+.layout-content{
+    display: flex;
+    flex-direction: column-reverse;
+}
+</style>
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
 .tags{
     font-size: 14px;
     padding: 16px;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column-reverse;
   > .current{
       display: flex;
       > li{
