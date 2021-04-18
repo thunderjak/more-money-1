@@ -70,6 +70,7 @@
     flex-direction: column-reverse;
   > .current{
       display: flex;
+      flex-wrap: wrap;
       > li{
         display: flex;
         justify-content: center;
@@ -80,6 +81,7 @@
         border-radius: $h/2;
         padding: 0 $h/2;
         margin-right: $h/2;
+        margin-top: 4px;
         &.selected{
             background: $color-highlight;
             color: rgb(255, 255, 255);
