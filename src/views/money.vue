@@ -2,7 +2,7 @@
     <div>
         <Layout class-prefix="layout">
             <NumberPad/>
-            <Type/>
+            <Types/>
             <Notes/>
             <Tags/>
         </Layout>
@@ -11,13 +11,13 @@
 
 <script lang="ts">
     import NumberPad from '@/components/money/numberPad.vue';
-    import Type from '@/components/money/type.vue';
+    import Types from '@/components/money/types.vue';
     import Notes from '@/components/money/notes.vue';
     import Tags from '@/components/money/tags.vue';
 
     export default {
         name:'Money',
-        components:{NumberPad,Type,Notes,Tags}
+        components:{NumberPad,Types,Notes,Tags}
     }
 </script>
 

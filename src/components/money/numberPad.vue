@@ -1,29 +1,58 @@
 <template>
 <div class="numberPad">
-                <div class="output">100</div>
+                <div class="output">{{output}}</div>
                 <div class="buttons">
-                    <button>1</button>
-                    <button>2</button>
-                    <button>3</button>
-                    <button class="date">date</button>
-                    <button>4</button>
-                    <button>5</button>
-                    <button>6</button>
-                    <button class="delete">删除</button>
-                    <button>7</button>
-                    <button>8</button>
-                    <button>9</button>
-                    <button class="submit">确认</button>
-                    <button>00</button>
-                    <button>0</button>
-                    <button>.</button>
+                    <button @click="inputContent">1</button>
+                    <button @click="inputContent">2</button>
+                    <button @click="inputContent">3</button>
+                    <button @click="date" class="date">date</button>
+                    <button @click="inputContent">4</button>
+                    <button @click="inputContent">5</button>
+                    <button @click="inputContent">6</button>
+                    <button @click="remove" class="remove">删除</button>
+                    <button @click="inputContent">7</button>
+                    <button @click="inputContent">8</button>
+                    <button @click="inputContent">9</button>
+                    <button @click="submit" class="submit">确认</button>
+                    <button @click="inputContent">00</button>
+                    <button @click="inputContent">0</button>
+                    <button @click="inputContent">.</button>
                 </div>
             </div>
 </template>
 
 <script lang="ts">
-    export default {
-        name:"numberPad"
+    import Vue from 'vue';
+    import {Component,Prop} from 'vue-property-decorator';
+
+    @Component
+    export default class NumberPad extends Vue{
+        output= '0';
+        inputContent(event:MouseEvent){
+            const button=(event.target as HTMLButtonElement);//强制执行类型
+            const input=button.textContent!;//把null排除，这里相当于 as string
+            if(this.output.length ===16){return;}
+            if(this.output ==='0'){
+                if(input==='00'){return;}
+                if ('0123456789'.indexOf(input)>=0){
+                    this.output = input;
+                } else{
+                    this.output += input;
+                }
+                return;
+            }
+            if(this.output.indexOf('.')>=0 && input ==='.') {return;}
+            this.output += input;
+        }
+        remove(){
+            if(this.output.length ===1){
+                this.output='0';
+            }else{
+                this.output =this.output.slice(0,-1);
+            }
+        }
+        // submit(){}
+        // date(){}
     }
 </script>
 
@@ -36,7 +65,8 @@
         padding: 9px 16px;
         text-align: right;
         box-shadow: inset 0 -5px 5px -5px fade-out(black,0.7),
-                    inset 0 5px 5px -5px fade-out(black,0.7)
+                    inset 0 5px 5px -5px fade-out(black,0.7);
+        min-height: 72px;
     }
     .buttons{
         //用float布局要写clearfix
