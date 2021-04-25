@@ -5,11 +5,11 @@
                     <button @click="inputContent">1</button>
                     <button @click="inputContent">2</button>
                     <button @click="inputContent">3</button>
-                    <button @click="date" class="date">date</button>
+                    <button @click="remove" class="remove">删除</button>
                     <button @click="inputContent">4</button>
                     <button @click="inputContent">5</button>
                     <button @click="inputContent">6</button>
-                    <button @click="remove" class="remove">删除</button>
+                    <button @click="clear" class="clear">清空</button>
                     <button @click="inputContent">7</button>
                     <button @click="inputContent">8</button>
                     <button @click="inputContent">9</button>
@@ -57,9 +57,8 @@
             this.$emit('submit',this.output)
             this.output='0'
         }
-        date(){
-            const sj= new Date()
-            console.log(sj)
+        clear(){
+            this.output='0'
         }
     }
 </script>
