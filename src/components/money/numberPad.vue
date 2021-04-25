@@ -27,7 +27,8 @@
 
     @Component
     export default class NumberPad extends Vue{
-        output= '0';
+        @Prop() readonly value! :number
+        output= this.value.toString();
         inputContent(event:MouseEvent){
             const button=(event.target as HTMLButtonElement);//强制执行类型
             const input=button.textContent!;//把null排除，这里相当于 as string
@@ -51,8 +52,13 @@
                 this.output =this.output.slice(0,-1);
             }
         }
-        // submit(){}
-        // date(){}
+        submit(){
+            this.$emit('update:value',this.output)
+        }
+        date(){
+            const sj= new Date()
+            console.log(sj)
+        }
     }
 </script>
 
