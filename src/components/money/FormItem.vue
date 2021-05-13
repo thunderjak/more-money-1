@@ -5,7 +5,7 @@
       <input
         type="text"
         :value="value"
-        @change="onValueChanged($event.target.value)"
+        @input="onValueChanged($event.target.value)"
         :placeholder="this.placeholder"
       />
     </label>
