@@ -1,11 +1,11 @@
 <template>
   <div class="tags">
     <div class="new">
-      <button @click="create">新增标签</button>
+      <button @click="createTag">新增标签</button>
     </div>
     <ul class="current">
       <li
-        v-for="tag in dataSource"
+        v-for="tag in tagList"
         :key="tag.id"
         :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
         @click="toggle(tag)"
@@ -19,10 +19,19 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
+
 @Component
 export default class Tags extends Vue {
-  @Prop(Array) readonly dataSource: string[] | undefined; //readonly防止修改外部传进来的内容
+  @Prop() readonly value!: string[];
   selectedTags: string[] = [];
+
+  get tagList() {
+    return this.$store.state.tagList;
+  }
+
+  created() {
+    this.$store.commit("fetchTags");
+  }
 
   toggle(tag: string) {
     const index = this.selectedTags.indexOf(tag);
@@ -33,13 +42,12 @@ export default class Tags extends Vue {
     }
     this.$emit("update:value", this.selectedTags);
   }
-  create() {
+  createTag() {
     const name = window.prompt("请输入标签名");
-    if (name === "") {
+    if (!name) {
       window.alert("标签名不能为空");
-    } else if (this.dataSource) {
-      this.$emit("update:dataSource", [...this.dataSource, name]);
     }
+    this.$store.commit("createTag", name);
   }
 }
 </script>

@@ -8,8 +8,7 @@
         placeholder="在这里输入备注"
         @update:value="onUpdateNotes"
       />
-      <Tags :dataSource.sync="tags" @update:value="onUpdateTags" />
-      {{ record }}
+      <Tags :value.sync="record.tags" />
     </Layout>
   </div>
 </template>
@@ -20,27 +19,17 @@ import NumberPad from "@/components/money/numberPad.vue";
 import Types from "@/components/money/types.vue";
 import FormItem from "@/components/money/FormItem.vue";
 import Tags from "@/components/money/tags.vue";
-import { Component, Watch } from "vue-property-decorator";
-import recordListModel from "@/models/recordListModel";
-import tagListModel from "@/models/tagListModel";
-
-const recordList = recordListModel.fetch();
-const tagList = tagListModel.fetch();
-
-type RecordItem = {
-  tags: string[];
-  notes: string;
-  type: string;
-  amount: number; // 数据类型 object | string
-  createdAt?: Date; // 类 / 构造函数
-};
+import { Component } from "vue-property-decorator";
 
 @Component({
   components: { NumberPad, Types, FormItem, Tags },
 })
 export default class Money extends Vue {
-  tags = tagList;
-  recordList: RecordItem[] = recordList;
+  get recordList() {
+    return this.$store.state.recordList;
+  }
+
+  // eslint-disable-next-line no-undef
   record: RecordItem = {
     tags: [],
     notes: "",
@@ -48,22 +37,16 @@ export default class Money extends Vue {
     amount: 0,
   };
 
-  onUpdateTags(value: string[]) {
-    this.record.tags = value;
+  created() {
+    this.$store.commit("fetchRecords");
   }
+
   onUpdateNotes(value: string) {
     this.record.notes = value;
   }
 
   saveRecord() {
-    const record2 = recordListModel.clone(this.record);
-    record2.createDate = new Date();
-    this.recordList.push(record2);
-    console.log(this.recordList);
-  }
-  @Watch("recordList")
-  onRecordListChanged() {
-    recordListModel.save(this.recordList);
+    this.$store.commit("createRecord", this.record);
   }
 }
 </script>

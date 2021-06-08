@@ -5,7 +5,7 @@
         <router-link
           class="tag"
           v-for="tag in tags"
-          :key="tag"
+          :key="tag.id"
           :to="`/labels/edit/${tag.id}`"
         >
           <span>{{ tag.name }}</span>
@@ -20,28 +20,28 @@
 </template>
 
 <script lang="ts">
-import tagListModel from "@/models/tagListModel";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import bigButton from "@/components/bigButton.vue";
 
-tagListModel.fetch();
 @Component({
   components: { bigButton },
 })
 export default class Labels extends Vue {
-  tags = tagListModel.data;
+  get tags() {
+    return this.$store.state.tagList;
+  }
+
+  beforeCreate() {
+    this.$store.commit("fetchTags");
+  }
 
   createTag() {
     const name = window.prompt("请输入标签名");
-    if (name) {
-      const message = tagListModel.create(name);
-      if (message === "duplicated") {
-        window.alert("标签名重复");
-      } else if (message === "success") {
-        window.alert("添加成功");
-      }
+    if (!name) {
+      window.alert("标签名不能为空");
     }
+    this.$store.commit("createTag", name);
   }
 }
 </script>
