@@ -36,6 +36,7 @@ import { Component } from "vue-property-decorator";
 import intervalList from "@/constants/intervalList";
 import recordTypeList from "@/constants/recordTypeList";
 import dayjs from "dayjs";
+import clone from "@/lib/clone";
 
 @Component({
   components: { Tabs },
@@ -70,16 +71,14 @@ export default class Statistics extends Vue {
     // eslint-disable-next-line no-undef
     type hashTableValue = { title: string; items: RecordItem[] };
 
-    const hashTable: {
-      [key: string]: hashTableValue;
-    } = {};
-    for (let i = 0; i < recordList.length; i++) {
-      const [date, time] = recordList[i].createdAt!.split("T");
+    // const hashTable: {
+    //   [key: string]: hashTableValue;
+    // } = {};
+    const newList = clone(recordList).sort(
+      (a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
+    );
 
-      hashTable[date] = hashTable[date] || { title: date, items: [] };
-      hashTable[date].items.push(recordList[i]);
-    }
-    return hashTable;
+    return [];
   }
 
   beforeCreate() {
