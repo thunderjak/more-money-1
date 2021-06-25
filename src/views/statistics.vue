@@ -6,14 +6,10 @@
         :dataSource="recordTypeList"
         :value.sync="type"
       />
-      <Tabs
-        class-prefix="interval"
-        :dataSource="intervalList"
-        :value.sync="interval"
-      />
+
       <div>
         <ol>
-          <li v-for="(group, index) in result" :key="index">
+          <li v-for="(group, index) in groupedList" :key="index">
             <h3 class="title">{{ beautify(group.title) }}</h3>
             <ol>
               <li v-for="item in group.items" :key="item.id" class="record">
@@ -33,7 +29,6 @@
 import Vue from "vue";
 import Tabs from "@/components/tabs.vue";
 import { Component } from "vue-property-decorator";
-import intervalList from "@/constants/intervalList";
 import recordTypeList from "@/constants/recordTypeList";
 import dayjs from "dayjs";
 import clone from "@/lib/clone";
@@ -66,19 +61,35 @@ export default class Statistics extends Vue {
     return (this.$store.state as RootState).recordList;
   }
 
-  get result() {
+  get groupedList() {
     const { recordList } = this;
+    if (recordList.length === 0) {
+      return [];
+    }
     // eslint-disable-next-line no-undef
     type hashTableValue = { title: string; items: RecordItem[] };
-
-    // const hashTable: {
-    //   [key: string]: hashTableValue;
-    // } = {};
     const newList = clone(recordList).sort(
       (a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
     );
-
-    return [];
+    const result = [
+      {
+        title: dayjs(newList[0].createdAt).format("YYYY-MM-DD"),
+        items: [newList[0]],
+      },
+    ];
+    for (let i = 1; i < newList.length; i++) {
+      const current = newList[i];
+      const last = result[result.length - 1];
+      if (dayjs(last.title).isSame(dayjs(current.createdAt), "day")) {
+        last.items.push(current);
+      } else {
+        result.push({
+          title: dayjs(current.createdAt).format("YYYY-MM-DD"),
+          items: [current],
+        });
+      }
+    }
+    return result;
   }
 
   beforeCreate() {
@@ -86,9 +97,7 @@ export default class Statistics extends Vue {
   }
 
   type = "-";
-  interval = "day";
   recordTypeList = recordTypeList;
-  intervalList = intervalList;
 }
 </script>
 
@@ -102,10 +111,6 @@ export default class Statistics extends Vue {
         display: none;
       }
     }
-  }
-  .interval-item {
-    font-size: 20px;
-    height: 48px;
   }
 }
 %item {
