@@ -8,7 +8,7 @@
       />
 
       <div>
-        <ol>
+        <ol v-if="groupedList.length > 0">
           <li v-for="(group, index) in groupedList" :key="index">
             <h3 class="title">
               {{ beautify(group.title) }}
@@ -23,6 +23,9 @@
             </ol>
           </li>
         </ol>
+        <div v-else class="noResult">
+          目前没有相关记录
+        </div>
       </div>
     </Layout>
   </div>
@@ -43,7 +46,7 @@ import { filter } from "vue/types/umd";
 export default class Statistics extends Vue {
   // eslint-disable-next-line no-undef
   tagString(tags: Tag[]) {
-    return tags.length === 0 ? "无" : tags.join(",");
+    return tags.length === 0 ? "无" : tags.map((t) => t.name).join(",");
   }
 
   beautify(string: string) {
@@ -77,6 +80,9 @@ export default class Statistics extends Vue {
       .sort(
         (a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
       );
+    if (newList.length === 0) {
+      return [];
+    }
     // eslint-disable-next-line no-undef
     type Result = { title: string; total?: number; items: RecordItem[] }[];
     const result: Result = [
@@ -142,5 +148,9 @@ export default class Statistics extends Vue {
   margin-right: auto;
   margin-left: 16px;
   color: #999;
+}
+.noResult {
+  padding: 16px;
+  text-align: center;
 }
 </style>
