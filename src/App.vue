@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 @import "~@/assets/style/reset.scss";
 @import "~@/assets/style/helper.scss";
 
-body{
+body {
   font-family: $font-hei;
   background: #f5f5f5;
 }
@@ -20,6 +20,7 @@ body{
   line-height: 1.5;
   font-size: 16px;
   font-family: $font-hei;
+  max-width: 500px;
+  margin: 0 auto;
 }
-
 </style>

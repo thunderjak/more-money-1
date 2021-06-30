@@ -24,7 +24,7 @@ import { Component, Prop } from "vue-property-decorator";
 export default class Tags extends Vue {
   @Prop() readonly value!: string[];
   selectedTags: string[] = [];
-
+  changeTag = "";
   get tagList() {
     return this.$store.state.tagList;
   }
@@ -42,12 +42,26 @@ export default class Tags extends Vue {
     }
     this.$emit("update:value", this.selectedTags);
   }
+  validate(name: string) {
+    this.changeTag = name;
+    if (this.changeTag.length === 0) {
+      window.alert("标签名不能为空");
+      return false;
+    }
+    if (this.changeTag.length > 6) {
+      window.alert("标签名不能长于6个字");
+      return false;
+    }
+    return true;
+  }
   createTag() {
     const name = window.prompt("请输入标签名");
     if (!name) {
       window.alert("标签名不能为空");
+    } else {
+      if (!this.validate(name)) return;
+      this.$store.commit("createTag", name);
     }
-    this.$store.commit("createTag", name);
   }
 }
 </script>

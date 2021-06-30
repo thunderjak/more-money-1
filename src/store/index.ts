@@ -29,8 +29,12 @@ const store= new Vuex.Store({
         JSON.stringify(state.recordList));
     },
     fetchTags(state){
+      const defaultLabels = [{id: "1", name:'衣'},
+      {id: "2", name:'食'},
+      {id: "3", name:'住'},
+      {id: "4", name:'行'}];
       state.tagList = JSON.parse(window.localStorage.
-        getItem('tagList')||'[]')
+        getItem('tagList')||JSON.stringify(defaultLabels))
     },
     createTag(state,name:string){
       const names = state.tagList.map(item=>item.name)
@@ -49,18 +53,14 @@ const store= new Vuex.Store({
     setCurrentTag(state,id:string){
       state.currentTag= state.tagList.filter(t=>t.id === id)[0]
     },
-    updateTag(state,payload:{id:string,name:string}){
-      const {id,name} = payload;
-      const idList = state.tagList.map(item=>item.id)
-      if(idList.indexOf(id)>=0){
-        const names=state.tagList.map(item=>item.name)
-        if (names.indexOf(name) >= 0) {
-          window.alert('标签名重复了');
-        } else {
-          const tag = state.tagList.filter(item => item.id === id)[0];
-          tag.name = name;
-          store.commit('saveTags');
-        }
+    updateTag(state,name:ChangeNames){
+      const names=state.tagList.map(item=>item.name)
+      if(names.indexOf(name.newName)>=0){
+        window.alert('标签名重复了');
+      }else{
+        const tag = state.tagList.filter(item => item.id === name.oldName.id)[0];
+        tag.name = name.newName;
+        store.commit('saveTags');
       }
     },
     removeTag(state, id: string) {
@@ -74,7 +74,6 @@ const store= new Vuex.Store({
       if (index >= 0) {
         state.tagList.splice(index, 1);
         store.commit('saveTags');
-        router.back();
       } else {
         window.alert('删除失败');
       }

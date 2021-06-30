@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Money from '@/views/money.vue'
 import Labels from '@/views/labels.vue'
-import EditLabel from '@/views/editlabel.vue'
 import Statistics from '@/views/statistics.vue'
 import NotFound from '@/views/notfound.vue'
 
@@ -11,7 +10,7 @@ Vue.use(VueRouter)
 const routes: Array<RouteConfig> = [
   {
     path:'/',
-    redirect:'/money' //重定向money
+    redirect:'/money' 
   },
   {
     path: '/money',
@@ -20,10 +19,6 @@ const routes: Array<RouteConfig> = [
   {
     path: '/labels',
     component: Labels
-  },
-  {
-    path: '/labels/edit/:id',
-    component: EditLabel
   },
   {
     path: '/statistics',

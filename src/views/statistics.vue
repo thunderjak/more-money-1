@@ -46,7 +46,7 @@ import { filter } from "vue/types/umd";
 export default class Statistics extends Vue {
   // eslint-disable-next-line no-undef
   tagString(tags: Tag[]) {
-    return tags.length === 0 ? "无" : tags.map((t) => t.name).join(",");
+    return tags.length === 0 ? "随手记" : tags.map((t) => t.name).join(",");
   }
 
   beautify(string: string) {

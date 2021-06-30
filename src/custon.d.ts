@@ -16,3 +16,8 @@ type RecordItem = {
       tagList: Tag[],
       currentTag?: Tag
   }
+
+  type ChangeNames ={
+    oldName: Tag;
+    newName: string;
+  }
